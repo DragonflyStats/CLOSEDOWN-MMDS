@@ -1,0 +1,59 @@
+
+Question 1
+For the following graph:
+   C -- D -- E
+ / |    |    | \
+A  |    |    |  B
+ \ |    |    | /
+   F -- G -- H
+Write the adjacency matrix A, the degree matrix D, and the Laplacian matrix L. For each, find the sum of all entries and the number of nonzero entries. Then identify the true statement from the list below.
+D has 22 nonzero entries.
+L has 22 nonzero entries.
+The sum of the entries of D is 22.
+The sum of the entries of A is 30.
+Question 2
+You are given the following graph.
+   2 ----6
+ /  \    |
+1    4   |
+ \  /  \ |
+  3      5 
+The goal is to find two clusters in this graph using Spectral Clustering on the Laplacian matrix. Compute the Laplacian of this graph. Then compute the second eigen vector of the Laplacian (the one corresponding to the second smallest eigenvalue).
+
+To cluster the points, we decide to split at the mean value. We say that a node is a tie if its value in the eigen-vector is exactly equal to the mean value. Let's assume that if a point is a tie, we choose its cluster at random. Identify the true statement from the list below.
+
+2 is a tie
+3 is a tie
+1 and 6 are in the same cluster
+2 and 5 are in different clusters
+Question 3
+We wish to estimate the surprise number (2nd moment) of a data stream, using the method of AMS. It happens that our stream consists of ten different values, which we'll call 1, 2,..., 10, that cycle repeatedly. That is, at timestamps 1 through 10, the element of the stream equals the timestamp, at timestamps 11 through 20, the element is the timestamp minus 10, and so on. It is now timestamp 75, and a 5 has just been read from the stream. As a start, you should calculate the surprise number for this time.
+For our estimate of the surprise number, we shall choose three timestamps at random, and estimate the surprise number from each, using the AMS approach (length of the stream times 2m-1, where m is the number of occurrences of the element of the stream at that timestamp, considering all times from that timestamp on, to the current time). Then, our estimate will be the median of the three resulting values.
+
+You should discover the simple rules that determine the estimate derived from any given timestamp and from any set of three timestamps. Then, identify from the list below the set of three "random" timestamps that give the closest estimate.
+
+{24, 44, 65}
+{30, 47, 62}
+{31, 32, 44}
+{5, 33, 67}
+%=========================================================================================================%
+Question 4
+We wish to use the Flagolet-Martin lgorithm of Section 4.4 to count the number of distinct elements in a stream. Suppose that there ten possible elements, 1, 2,..., 10, that could appear in the stream, but only four of them have actually appeared. To make our estimate of the count of distinct elements, we hash each element to a 4-bit binary number. The element x is hashed to 3x + 7 (modulo 11). For example, element 8 hashes to 3*8+7 = 31, which is 9 modulo 11 (i.e., the remainder of 31/11 is 9). Thus, the 4-bit string for element 8 is 1001.
+A set of four of the elements 1 through 10 could give an estimate that is exact (if the estimate is 4), or too high, or too low. You should figure out under what circumstances a set of four elements falls into each of those categories. Then, identify in the list below the set of four elements that gives the exactly correct estimate.
+
+{2, 6, 8, 9}
+{2, 4, 6, 10}
+{ 1, 3, 9, 10}
+{1, 2, 3, 9}
+Question 5
+Suppose we are using the DGIM algorithm of Section 4.6.2 to estimate the number of 1's in suffixes of a sliding window of length 40. The current timestamp is 100, and we have the following buckets stored:
+End Time	100	98	95	92	87	80	65
+Size	1	1	2	2	4	8	8
+Note: we are showing timestamps as absolute values, rather than modulo the window size, as DGIM would do.
+
+Suppose that at times 101 through 105, 1's appear in the stream. Compute the set of buckets that would exist in the system at time 105. Then identify one such bucket from the list below. Buckets are represented by pairs (end-time, size).
+
+(102,2)
+(95,8)
+(104,1)
+(98,4)
