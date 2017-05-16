@@ -3,6 +3,16 @@ library(randomForest)
 library(sp)
 library(fastICA)
 
+##################################################################################
+
+cat("\n")
+cat("IMPORTANT: Make sure Example ACS files are in the same directory")
+cat("\n")
+
+# setwd("github/yaImpute")
+
+##################################################################################
+
 data(MoscowMtStJoe)
 # convert polar slope and aspect measurements to cartesian
 # (which is the same as Stage's (1976) transformation).
@@ -61,70 +71,10 @@ rf2 <- yai(x=x, y=ybaB, method="randomForest", rfMode="regression")
 rforig2 <- impute(rf2,ancillaryData=y)
 compare.yai(rforig2,rforig)
 
+
+###########################################
+
 # Method randomForest works best when there are few variables and when factors are used
 # rather than continuous variables. The whatsMax function is used to create a data frame of
 # containing a list of the species of maximum basal area, and two other related variables.
 
-########################################################
-# Page 10
-
- data("MoscowMtStJoe")
- x <- MoscowMtStJoe[, c("EASTING", "NORTHING", "ELEVMEAN",
- "SLPMEAN", "ASPMEAN", "INTMEAN", "HTMEAN", "CCMEAN")]
- x[, 5] <- (1 - cos((x[, 5] - 30) * pi/180))/2
- names(x)[5] = "TrASP"
- y <- MoscowMtStJoe[, c(1, 9, 12, 14, 18)]
- mal <- yai(x = x, y = y, method = "mahalanobis")
- msn <- yai(x = x, y = y, method = "msn")
- gnn <- yai(x = x, y = y, method = "gnn")
- ica <- yai(x = x, y = y, method = "ica")
-
-
-y2 <- cbind(whatsMax(y[, 1:4]), y[, 5])
-names(y2) <- c("MajorSpecies", "BasalAreaMajorSp", "TotalBA")
-rf <- yai(x = x, y = y2, method = "randomForest")
-head(y2)
-
-#############################################
-# Page 11
-levels(y2$MajorSpecies)
-plot(rf, vars = yvars(rf))
-
-#############################################
-# Page 12
-
-rfImp <- impute(rf, ancillaryData = y)
-rmsd <- compare.yai(mal, msn, ann, rfImp, ica)
-apply(rmsd, 2, mean, na.rm = TRUE)
-plot(rmsd)
-
-#############################################
-# Page 13
-
-xfiles <- list(CCMEAN = "canopy.asc", ELEVMEAN = "dem.asc",HTMEAN = "heights.asc", INTMEAN = "intense.asc",SLPMEAN = "slope.asc", TrASP = "trasp.asc", EASTING = "utme.asc",NORTHING = "utmn.asc")
-outfiles <- list(ABGR_BA = "rf_abgr.asc", PIPO_BA = "rf_pipo.asc",PSME_BA = "rf_psme.asc", THPL_BA = "rf_thpl.asc",Total_BA = "rf_totBA.asc")
-AsciiGridImpute(rf, xfiles, outfiles, ancillaryData = y)
-
-# The R package sp by Pebesma and Bivand (2005) contains functions designed to read and
-# manipulate ASCII grid data and are used to plot part of the total image of example X- and
-# Y -variables (Figures 4 and 5).
- 
-library("sp")
-canopy <- read.asciigrid("canopy.asc")[100:450, 400:700]
-TrAsp <- read.asciigrid("trasp.asc")[100:450, 400:700]
-par(mfcol = c(1, 2), plt = c(0.05, 0.95, 0.05, 0.85))
-
-image(canopy, col = hcl(h = 140, l = seq(100, 0, -10)))
-title("LiDAR mean canopy cover")
-image(TrAsp, col = hcl(h = 140, l = seq(100, 0, -10)))
-title("Transformed aspect")
-
-totBA <- read.asciigrid("rf_totBA.asc")[100:450, 400:700]
-psme <- read.asciigrid("rf_psme.asc")[100:450, 400:700]
-par(mfcol = c(1, 2), plt = c(0.05, 0.95, 0.05, 0.85))
-image(totBA, col = hcl(h = 140, l = seq(100, 0, -10)))
-
-
-title("Total basal area")
-image(psme, col = hcl(h = 140, l = seq(100, 0, -10)))
-title("Douglas fir basal area")
