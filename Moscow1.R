@@ -65,8 +65,8 @@ compare.yai(rforig2,rforig)
 # rather than continuous variables. The whatsMax function is used to create a data frame of
 # containing a list of the species of maximum basal area, and two other related variables.
 
-
-
+########################################################
+# Page 10
 
  data("MoscowMtStJoe")
  x <- MoscowMtStJoe[, c("EASTING", "NORTHING", "ELEVMEAN",
