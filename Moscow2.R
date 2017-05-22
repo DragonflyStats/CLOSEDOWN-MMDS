@@ -35,7 +35,8 @@ head(y2)
 #############################################
 # Page 11
 levels(y2$MajorSpecies)
-plot(rf, vars = yvars(rf))
+plot(rf, vars = yvars(rf))
+
 
 #############################################
 # Page 12
@@ -43,7 +44,8 @@ plot(rf, vars = yvars(rf))
 rfImp <- impute(rf, ancillaryData = y)
 rmsd <- compare.yai(mal, msn, gnn, rfImp, ica)
 apply(rmsd, 2, mean, na.rm = TRUE)
-plot(rmsd)
+plot(rmsd)
+
 
 #############################################
 # Page 13
@@ -51,7 +53,8 @@ library(sp)
 xfiles <- list(CCMEAN = "canopy.asc", ELEVMEAN = "dem.asc",
 HTMEAN = "heights.asc", INTMEAN = "intense.asc",
 SLPMEAN = "slope.asc", TrASP = "trasp.asc", EASTING = "utme.asc",
-NORTHING = "utmn.asc")
+NORTHING = "utmn.asc")
+
 
 outfiles <- list(ABGR_BA = "rf_abgr.asc", PIPO_BA = "rf_pipo.asc",PSME_BA = "rf_psme.asc", THPL_BA = "rf_thpl.asc",Total_BA = "rf_totBA.asc")
 AsciiGridImpute(rf, xfiles, outfiles, ancillaryData = y)
